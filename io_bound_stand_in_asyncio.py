@@ -5,9 +5,9 @@ random.seed(28)
 
 
 async def io_bound_stand_in(task_number: int) -> None:
-    wait_time = random.gauss(2, 0.2)
-    print(f"Initialized task number: {task_number}, running 'i/o task' for {wait_time:.2f} seconds")
-    await asyncio.sleep(wait_time)
+    sleep_time = random.gauss(2, 0.2)
+    print(f"Initialized task number: {task_number}, running 'i/o task' for {sleep_time:.2f} seconds")
+    await asyncio.sleep(sleep_time)
     print(f"Done with task number: {task_number}")
 
 
