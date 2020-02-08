@@ -22,18 +22,22 @@ class RinexFile:
         )
 
     def process(self) -> None:
+        self._read()
+        self._http_post()
+        print(self)
+
+    def _read(self) -> None:
         with open(self.filename, 'r') as f:
             self.lines = f.readlines()
         self.file_length = len(self.lines)
 
+    def _http_post(self):
         payload = {
             'filename': self.filename,
             'length': self.file_length
         }
         resp = requests.post(POST_URL, data=payload)
         self.http_response = resp.status_code
-
-        print(self)
 
 
 def main(rinex_filenames: List[str]) -> None:

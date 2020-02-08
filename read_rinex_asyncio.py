@@ -25,10 +25,16 @@ class RinexFile:
         )
 
     async def process(self) -> None:
+        await self._read()
+        await self._http_post()
+        print(self)
+
+    async def _read(self) -> None:
         async with aiofiles.open(self.filename, 'r') as f:
             self.lines = await f.readlines()
         self.file_length = len(self.lines)
 
+    async def _http_post(self) -> None:
         payload = {
             'filename': self.filename,
             'length': self.file_length
@@ -36,8 +42,6 @@ class RinexFile:
         async with aiohttp.ClientSession() as session:
             async with session.post(POST_URL, data=payload) as resp:
                 self.http_response = resp.status
-
-        print(self)
 
 
 async def main(rinex_filenames: List[str]) -> None:
